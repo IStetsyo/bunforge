@@ -1,0 +1,11 @@
+{
+  "name": "@repo/shared-types",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "zod": "^4.3.6",
+    "@orpc/server": "^1.13.5",
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*"
+  }
+}

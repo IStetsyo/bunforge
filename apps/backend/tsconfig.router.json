@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "isolatedModules": false,
+    "noEmit": false,
+    "outDir": "../../packages/shared-types/generated",
+    "rootDir": "./src"
+  },
+  "include": ["src/router/index.ts"]
+}

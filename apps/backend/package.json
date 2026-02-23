@@ -4,10 +4,15 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "generate-types": "tsc -p tsconfig.router.json",
+    "watch-types": "tsc -p tsconfig.router.json --watch --preserveWatchOutput",
+    "prebuild": "bun run generate-types",
+    "dev": "bun run watch-types & bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@orpc/server": "^1.13.5",
+    "elysia": "latest",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
