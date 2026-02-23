@@ -7,7 +7,8 @@
     "generate-types": "tsc -p tsconfig.router.json",
     "watch-types": "tsc -p tsconfig.router.json --watch --preserveWatchOutput",
     "prebuild": "bun run generate-types",
-    "dev": "bun run watch-types & bun run --watch src/index.ts"
+    "dev": "bun run watch-types & bun run --watch src/index.ts",
+    "build": "bun run generate-types && bun build --compile --target bun --outfile build/server src/index.ts"
   },
   "dependencies": {
     "@orpc/server": "^1.13.5",
