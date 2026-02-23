@@ -2,7 +2,7 @@ import { isServer, getRequestEvent } from "solid-js/web";
 import { createORPCClient } from "@orpc/client";
 import { RPCLink } from "@orpc/client/fetch";
 
-import type { AppRouterClient } from "@repo/shared-types/generated/router";
+import type { AppRouterClient } from "@repo/shared-types/router";
 import { createTanstackQueryUtils } from "@orpc/tanstack-query";
 
 const getBaseUrl = () => {

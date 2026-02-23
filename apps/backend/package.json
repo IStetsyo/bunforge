@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-types": "tsc -p tsconfig.router.json",
-    "watch-types": "tsc -p tsconfig.router.json --watch --preserveWatchOutput",
+    "generate-types": "tsup src/router/index.ts --format esm --dts-only --out-dir ../../packages/shared-types/router",
+    "watch-types": "tsup src/router/index.ts --format esm --dts-only --watch --out-dir ../../../packages/shared-types/router",
     "prebuild": "bun run generate-types",
     "dev": "bun run watch-types & bun run --watch src/index.ts",
     "build": "bun run generate-types && bun build --compile --target bun --outfile build/server src/index.ts"
@@ -18,7 +18,8 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "tsup": "^8.5.1"
   },
   "module": "src/index.js"
 }
