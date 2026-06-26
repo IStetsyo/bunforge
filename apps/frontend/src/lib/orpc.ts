@@ -6,8 +6,8 @@ import type { AppRouterClient } from "@repo/shared-types/router";
 import { createTanstackQueryUtils } from "@orpc/tanstack-query";
 
 const getBaseUrl = () => {
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return `http://localhost:${process.env.PORT ?? 8080}`;
+  if (process.env.BACKEND_URL) return `https://${process.env.BACKEND_URL}`;
+  return `http://localhost:8080`;
 };
 
 export const orpc = createORPCClient<AppRouterClient>(

@@ -2,10 +2,17 @@ import { RPCHandler } from "@orpc/server/fetch";
 import { Elysia } from "elysia";
 import { router } from "./router";
 import { onError } from "@orpc/server";
+import { CORSPlugin } from "@orpc/server/plugins";
 
 const MAIN_API_PORT = process.env.MAIN_API_PORT || 8080;
 
 const handler = new RPCHandler(router, {
+  plugins: [
+    new CORSPlugin({
+      origin: (origin, options) => origin,
+      allowMethods: ["GET", "HEAD", "PUT", "POST", "DELETE", "PATCH"],
+    }),
+  ],
   interceptors: [
     onError((error) => {
       console.error(error);

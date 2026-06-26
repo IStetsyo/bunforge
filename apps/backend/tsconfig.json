@@ -3,6 +3,10 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "moduleResolution": "bundler",
-    "types": ["bun-types"]
+    "types": ["bun-types"],
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   }
 }

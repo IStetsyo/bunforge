@@ -1,7 +1,7 @@
-import * as js from '@eslint/js';
-import * as solid from 'eslint-plugin-solid';
-import * as globals from 'globals';
-import ts from 'typescript-eslint';
+import * as js from "@eslint/js";
+import * as solid from "eslint-plugin-solid";
+import * as globals from "globals";
+import ts from "typescript-eslint";
 
 export const config = ts.config(
   js.configs.recommended,
@@ -12,8 +12,8 @@ export const config = ts.config(
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node
-      }
-    }
-  }
+        ...globals.node,
+      },
+    },
+  },
 );

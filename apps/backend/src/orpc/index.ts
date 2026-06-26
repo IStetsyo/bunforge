@@ -28,8 +28,8 @@ const logMiddleware = o.middleware(async ({ next, path, context }) => {
     console.info(
       `[${new Date().toISOString()}] ${path} - ${Date.now() - start}ms`,
     );
-    console.info("Request:", JSON.stringify(requestData));
-    console.info("Response:", JSON.stringify(responseData));
+    console.info("Request:", JSON.stringify(requestData, null, 2));
+    console.info("Response:", JSON.stringify(responseData, null, 2));
   }
 });
 

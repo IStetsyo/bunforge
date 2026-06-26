@@ -15,9 +15,13 @@
     "@solidjs/router": "^0.15.0",
     "@solidjs/start": "^1.1.0",
     "@tailwindcss/vite": "^4.0.9",
+    "@tanstack/solid-form": "^1.31.0",
     "@tanstack/solid-query": "^5.90.23",
     "@trpc/client": "^11.10.0",
+    "daisyui": "^5.5.19",
+    "lucide-solid": "^1.14.0",
     "solid-js": "^1.9.5",
+    "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.0.9",
     "vinxi": "^0.5.3",
     "zod": "^4.3.6"
