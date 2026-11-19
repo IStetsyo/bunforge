@@ -1,11 +1,9 @@
 import { Title } from "@solidjs/meta";
-import { useNavigate } from "@solidjs/router";
+import { A } from "@solidjs/router";
 import { For } from "solid-js";
-import { Logo } from "~/components/Logo";
+import { ThemeToggle } from "~/components/ThemeToggle";
 
 const REPO_URL = "https://github.com/IStetsyo/bunforge";
-const LIGHT_THEME = "lightforge";
-const DARK_THEME = "darkforge";
 
 const STACK = {
   frontend: [
@@ -100,21 +98,7 @@ const formatNumber = (number: number) => {
   return number.toString().padStart(2, "0");
 };
 
-const toggleTheme = () => {
-  const currentTheme = document.documentElement.getAttribute("data-theme");
-  const nextTheme = currentTheme === LIGHT_THEME ? DARK_THEME : LIGHT_THEME;
-
-  document.documentElement.setAttribute("data-theme", nextTheme);
-  window.localStorage.setItem("theme", nextTheme);
-};
-
 export default function Home() {
-  const navigate = useNavigate();
-
-  const handleOpenExample = () => {
-    navigate("/example");
-  };
-
   return (
     <main class="min-h-screen h-full bg-base max-w-4xl mx-auto px-8">
       <Title>Bunforge - Explore</Title>
@@ -131,23 +115,15 @@ export default function Home() {
             </p>
           </div>
           <div class="flex flex-wrap gap-4">
-            <button class="btn btn-info text-sm" onClick={handleOpenExample}>
+            <A class="btn btn-info text-sm" href="/example">
               View Example
-            </button>
+            </A>
             <a href={REPO_URL} target="_blank">
               <button class="btn btn-base text-sm">View Source</button>
             </a>
           </div>
         </div>
-        <button
-          type="button"
-          class="cursor-pointer rounded-xl transition-transform hover:scale-[1.02]"
-          onDblClick={toggleTheme}
-          aria-label="Toggle theme"
-          title="Double click to toggle theme"
-        >
-          <Logo />
-        </button>
+        <ThemeToggle />
       </div>
       <div class="divider divider-base" />
       <div class="py-16 space-y-12">

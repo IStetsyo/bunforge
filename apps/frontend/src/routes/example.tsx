@@ -7,7 +7,7 @@ import ChevronRight from "lucide-solid/icons/chevron-right";
 import Plus from "lucide-solid/icons/plus";
 import Search from "lucide-solid/icons/search";
 import Trash2 from "lucide-solid/icons/trash-2";
-import { createMemo, createSignal, For, Show } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import { orpc, orpcQuery } from "~/lib/orpc";
 
 const HEADER_ROWS = ["id", "name", "description", ""];
@@ -51,6 +51,11 @@ export default function Home() {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       getPreviousPageParam: (firstPage) => firstPage.prevCursor,
       input: (pageParam) => ({ offset: pageParam, limit: LIMIT }),
+      select: (data) => ({
+        ...data,
+        planets: data.pages.flatMap((page) => page.data),
+        total: data.pages[0]?.total ?? 0,
+      }),
     }),
   );
 
@@ -118,35 +123,10 @@ export default function Home() {
     },
   }));
 
-  const planetListData = createMemo(() => {
-    const totalCount = planetsQuery.data?.pages?.[0]?.total ?? 0;
-
-    let lastCursor = (planetsQuery?.data?.pageParams?.at(-1) ?? 0) + LIMIT;
-    if (lastCursor > totalCount) {
-      lastCursor = totalCount;
-    }
-
-    const allPlanets =
-      planetsQuery.data?.pages?.flatMap((page) => page.data) ?? [];
-
-    return { totalCount, lastCursor, allPlanets };
-  });
-
-  const visibleFoundPlanet = createMemo(() => {
-    const planet = foundPlanet();
-
-    if (!planet) {
-      return false;
-    }
-
-    return planetListData().allPlanets.some(
-      (listPlanet) => listPlanet.id === planet.id,
-    );
-  });
-
-  const nextPlanetId = createMemo(
-    () => (planetListData().allPlanets.at(-1)?.id ?? 0) + 1,
-  );
+  const visibleFoundPlanet = () =>
+    planetsQuery.data?.planets.some(
+      (planet) => planet.id === foundPlanet()?.id,
+    ) ?? false;
 
   return (
     <>
@@ -174,11 +154,11 @@ export default function Home() {
             <span class="text-sm space-x-3">
               <span class="font-semibold">Planet List</span>
               <code class="text-xs py-1 px-2 border border-base-200 rounded-md text-base-200">
-                {planetListData().totalCount} total
+                {planetsQuery.data?.total ?? 0} total
               </code>
               <code class="text-xs text-base-200">cursor:</code>
               <code class="text-xs text-base-300">
-                {planetListData().lastCursor}
+                {planetsQuery.data?.planets.length ?? 0}
               </code>
             </span>
             <div class="overflow-x-auto rounded-box border border-base-200 bg-base-200">
@@ -193,7 +173,7 @@ export default function Home() {
                   </tr>
                 </thead>
                 <tbody>
-                  <For each={planetListData().allPlanets}>
+                  <For each={planetsQuery.data?.planets}>
                     {(planet) => {
                       const isHighlighted = () =>
                         foundPlanet()?.id === planet.id && visibleFoundPlanet();
@@ -235,9 +215,7 @@ export default function Home() {
                 </tbody>
               </table>
             </div>
-            <Show
-              when={planetListData().lastCursor < planetListData().totalCount}
-            >
+            <Show when={planetsQuery.hasNextPage}>
               <button
                 class="btn btn-outline border-base-200"
                 onClick={() => planetsQuery.fetchNextPage()}
@@ -245,7 +223,9 @@ export default function Home() {
                 <ChevronRight size={16} />
                 <span>Load More</span>
                 <code class="text-sm text-base-300">
-                  ({planetListData().totalCount - planetListData().lastCursor}{" "}
+                  (
+                  {(planetsQuery.data?.total ?? 0) -
+                    (planetsQuery.data?.planets.length ?? 0)}{" "}
                   remaining)
                 </code>
               </button>
@@ -388,8 +368,7 @@ export default function Home() {
                 </createPlanetForm.Field>
 
                 <code class="text-base-200 text-xs">
-                  id will be assigned:{" "}
-                  <span class="text-base-300">{nextPlanetId()}</span>
+                  id is assigned by the server
                 </code>
 
                 <Show when={createPlanetMutation.isError}>
